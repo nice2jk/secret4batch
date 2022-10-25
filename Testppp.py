@@ -798,7 +798,7 @@ def batch():
     schedule.every(185).minutes.do(poxnet, dbWrite)
     schedule.every(111).minutes.do(itctcl, dbWrite)
     schedule.every(51).minutes.do(devpdc, dbWrite)
-    
+
     # schedule.every(1).seconds.do(bestdd, dbWrite)
     # schedule.every(3).seconds.do(bestcl, dbWrite)
     # schedule.every(5).seconds.do(bestbb, dbWrite)

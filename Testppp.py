@@ -161,11 +161,13 @@ def bestit(db):
     category="news"
     
     try:
-        req=requests.get(url)
+        # req=requests.get(url)
         # req.encoding='UTF-8'
+        headers={"User-Agent":"Mozilla/5.0"}
+        req=requests.get(url, headers=headers)
     
         if req.status_code == 200:        
-            html=req.text        
+            html=req.text
             soup=bs(html, "html.parser")
             bsi=soup.select(".subject")
             
@@ -930,7 +932,7 @@ def batch():
         time.sleep(2)
 
 if __name__ == "__main__":
-    # bestdd(True)
+    # bestit(True)
     # devpdc(True)
     batch()
 

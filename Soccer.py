@@ -160,15 +160,15 @@ def batch():
     
     dbWrite=True
     schedule.every(6).hours.do(epl, dbWrite)
-    schedule.every(4).hours.do(wc22, dbWrite)
-    schedule.every(4).hours.do(wctt, dbWrite)
+    # schedule.every(4).hours.do(wc22, dbWrite)
+    # schedule.every(4).hours.do(wctt, dbWrite)
     
     while True:
         schedule.run_pending()
         time.sleep(2)
 
 if __name__ == "__main__":
-    batch()
+    # batch()
     # wctt(False)
     # wc22(True)
-    # epl(True)
+    epl(False)

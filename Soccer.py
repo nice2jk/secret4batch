@@ -77,7 +77,10 @@ def mayo(db):
                     score=data.select_one(".score-time").get_text().strip()
                     
                     if "P" in score:
-                        score="P"                        
+                        score="P"
+                        
+                    if "E" in score:
+                        score="e"
                     
                     teamB=data.select_one(".team-b").get_text().strip()
                     
@@ -223,5 +226,5 @@ if __name__ == "__main__":
     # batch()
     # wctt(False)
     # wc22(True)
-    # epl(False)
-    mayo(True)
+    epl(True)
+    # mayo(True)

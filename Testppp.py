@@ -885,6 +885,63 @@ def devpdc(db):
     except Exception:
         now=time
         print(cpName + " | " + now.strftime('%Y-%m-%d %H:%M:%S') + " | request exception")
+        
+def hmpick(db):
+    url="https://humorpick.com/bbs/board.php?bo_table=best"
+    host="https://humorpick.com"
+    cpName="humorpick"
+    category="funp"
+    
+    try:
+        headers={"User-Agent":"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.0 Safari/532.5"}
+        req=requests.get(url, headers=headers)
+        # req.encoding='UTF-8'
+        
+        if req.status_code == 200:        
+            html=req.text
+            soup=bs(html, "html.parser")
+            bsi=soup.select(".wr-subject")
+            
+            my_list = list()
+            for data in bsi:
+                try:
+                    # print(data)
+                    title=data.select_one("a").get_text().strip()
+                    link=data.select_one("a")["href"].strip()
+                    if "\n" in title:
+                        continue
+                        # link2=link.replace('\n','')
+                    
+                    if len(link) > 2 and len(title) > 2:
+                        # print(title + ":" + link)
+                        # if(link.find("rule") < 0):
+                        enc=hashlib.md5(title.encode()).hexdigest()
+                        my_list.append((enc, cpName, title, link, category))                                        
+                except Exception:
+                    pass
+                            
+            if db:
+                con=pymysql.connect(user="root", passwd="shine20406!", host="localhost", db="secretnews", charset="utf8")
+                cur=con.cursor()
+            
+                sql="INSERT IGNORE INTO content (cid, cpname, title, link, category) VALUES (%s, %s, %s, %s, %s)"
+                cur.executemany(sql, my_list)
+                
+                now=time
+                print(now.strftime(cpName + " | " + '%Y-%m-%d %H:%M:%S') + " | " + str(cur.rowcount))
+                
+                cur.close()
+                con.commit()
+                con.close()
+            else:
+                print(my_list)
+            
+        else :
+            print(sys._getframe().f_code.co_name + "=" + str(req.status_code))
+    except Exception as es:
+        now=time
+        print(cpName + " | " + now.strftime('%Y-%m-%d %H:%M:%S') + " | request exception")
+        print(es)
 
 def batch():
     now=time
@@ -908,6 +965,7 @@ def batch():
     schedule.every(185).minutes.do(poxnet, dbWrite)
     schedule.every(111).minutes.do(itctcl, dbWrite)
     schedule.every(51).minutes.do(devpdc, dbWrite)
+    schedule.every(53).minutes.do(hmpick, dbWrite)
 
     # schedule.every(4).seconds.do(bestdd, dbWrite)
     # schedule.every(4).seconds.do(bestcl, dbWrite)
@@ -934,6 +992,5 @@ def batch():
 if __name__ == "__main__":
     # bestit(True)
     # devpdc(True)
+    # hmpick(False)
     batch()
-
-

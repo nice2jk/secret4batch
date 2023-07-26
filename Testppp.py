@@ -208,7 +208,7 @@ def bestit(db):
         print(cpName + " | " + now.strftime('%Y-%m-%d %H:%M:%S') + " | request exception")
         
 def xartpd(db):
-    url="https://www.podong.kr/community/17k.dong"
+    url="https://www.podong.kr/community/17k.htm"
     host="https://www.podong.kr"
     cpName="Podong"
     category="xart"
@@ -992,5 +992,5 @@ def batch():
 if __name__ == "__main__":
     # bestit(True)
     # devpdc(True)
-    # hmpick(False)
+    # xartpd(False)
     batch()
